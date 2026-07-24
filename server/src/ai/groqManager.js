@@ -86,9 +86,15 @@ export async function generateCompletion(messages, options = {}) {
 export async function analyzeImageWithVision(imageBase64) {
   const visionApiKey = process.env.VISION_API_KEY || process.env.GROQ_API_KEY;
 
-  if (!visionApiKey || visionApiKey === 'dummy_key_for_testing') {
-    // Graceful Fallback: Return placeholder if vision key is not set
-    return '[Diagram/Image extracted from document. Vision analysis skipped (No API key provided).]';
+  if (!imageBase64 || typeof imageBase64 !== 'string' || !visionApiKey || visionApiKey === 'dummy_key_for_testing') {
+    // Graceful Fallback: Return placeholder if vision key or image data is missing
+    return '[Diagram/Image extracted from document. Vision analysis skipped.]';
+  }
+
+  // Format base64 URL if necessary
+  let imageUrl = imageBase64;
+  if (!imageUrl.startsWith('http://') && !imageUrl.startsWith('https://') && !imageUrl.startsWith('data:')) {
+    imageUrl = `data:image/png;base64,${imageUrl}`;
   }
 
   try {
@@ -107,7 +113,7 @@ export async function analyzeImageWithVision(imageBase64) {
             },
             {
               type: 'image_url',
-              image_url: { url: imageBase64 }
+              image_url: { url: imageUrl }
             }
           ]
         }

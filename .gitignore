@@ -28,9 +28,13 @@ yarn-debug.log*
 yarn-error.log*
 *.log
 
-# System files
+# System & archive files
 .DS_Store
 Thumbs.db
+*.7z
+*.zip
+*.rar
+*.tar.gz
 
 # IDE settings
 .idea/

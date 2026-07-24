@@ -12,6 +12,10 @@ uploads/
 processed/
 cache/
 
+# Resume PDFs
+Sujoy_Kar_Resume-.pdf
+*Resume*.pdf
+
 # Environment variable files containing secrets
 .env
 server/.env

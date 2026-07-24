@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BookOpen, Key, HelpCircle, FileCheck, Layers, StickyNote, RefreshCw, CheckCircle2, XCircle } from 'lucide-react';
+import MarkdownRenderer from './MarkdownRenderer.jsx';
 
 export default function StudyHub({ docId, currentPage, onJumpToPage }) {
   const [activeTab, setActiveTab] = useState('summary');
@@ -93,7 +94,11 @@ export default function StudyHub({ docId, currentPage, onJumpToPage }) {
               <div className="space-y-4 text-xs">
                 <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
                   <h3 className="font-bold text-white text-sm">Executive Overview</h3>
-                  <p className="text-slate-300 leading-relaxed">{data.summary?.overview || 'Summary unavailable.'}</p>
+                  {data.summary?.overview ? (
+                    <MarkdownRenderer content={data.summary.overview} />
+                  ) : (
+                    <p className="text-slate-300 leading-relaxed">Summary unavailable.</p>
+                  )}
                 </div>
 
                 <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
@@ -102,7 +107,7 @@ export default function StudyHub({ docId, currentPage, onJumpToPage }) {
                     {data.summary?.keyTakeaways?.map((takeaway, idx) => (
                       <li key={idx} className="flex items-start space-x-2 text-slate-300">
                         <span className="text-indigo-400 font-bold">•</span>
-                        <span>{takeaway}</span>
+                        <div className="flex-1"><MarkdownRenderer content={takeaway} /></div>
                       </li>
                     ))}
                   </ul>

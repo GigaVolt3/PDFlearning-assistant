@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Send, Bot, User, Sparkles, CheckCircle, Compass, Zap, BookOpen, HelpCircle, Layers } from 'lucide-react';
+import MarkdownRenderer from './MarkdownRenderer.jsx';
 
 const EXPLAIN_MODES = [
   { id: 'Beginner', label: 'Beginner', desc: 'Simple analogies' },
@@ -217,7 +218,11 @@ export default function AIWorkspace({ docId, currentPage, onJumpToPage }) {
                     : 'bg-slate-900 border border-slate-800 text-slate-200 rounded-tl-none shadow-md'
                 }`}
               >
-                <div className="whitespace-pre-wrap font-sans">{msg.text}</div>
+                {msg.sender === 'ai' ? (
+                  <MarkdownRenderer content={msg.text} />
+                ) : (
+                  <div className="whitespace-pre-wrap font-sans">{msg.text}</div>
+                )}
               </div>
 
               {/* AI Citations & Model Failover Badge */}

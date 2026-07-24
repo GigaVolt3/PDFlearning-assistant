@@ -12,6 +12,22 @@ export default function App() {
   const [rightPanelTab, setRightPanelTab] = useState('chat'); // 'chat' | 'study'
   const [showUploadModal, setShowUploadModal] = useState(true);
 
+  // Auto-load document if docId query param is present in URL
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const urlDocId = params.get('docId');
+    const urlFilename = params.get('filename') || 'Document.pdf';
+
+    if (urlDocId) {
+      setActiveDoc({
+        docId: urlDocId,
+        filename: urlFilename,
+        pdfUrl: `/uploads/${urlDocId}.pdf`
+      });
+      setShowUploadModal(false);
+    }
+  }, []);
+
   // Handle successful PDF upload
   const handleUploadSuccess = (docMeta) => {
     setActiveDoc(docMeta);
